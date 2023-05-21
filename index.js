@@ -2,8 +2,8 @@ const express = require('express')
 const app = express()
 
 app.get("/", (req, res) => {
-    console.log("Response success")
-    res.send("Response Success!")
+    console.log("Response Berhasil")
+    res.send("Response Berasil yaw!")
 })
 
 const PORT = process.env.PORT || 8000
