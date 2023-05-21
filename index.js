@@ -1,4 +1,3 @@
-
 const express = require('express')
 const app = express()
 
@@ -11,6 +10,3 @@ const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
     console.log("Server is up and listening on " + PORT)
 })
-
-let angka = 42;
-console.log("Nilai angka:", angka); // Menampilkan teks "Nilai angka: 42"
