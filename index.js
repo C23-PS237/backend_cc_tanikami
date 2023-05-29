@@ -1,12 +1,21 @@
+const bodyParser = require('body-parser')
 const express = require('express')
+const port = 3000
 const app = express()
+const db = require ('./connection.js')
+const response = require('./response.js')
 
-app.get("/", (req, res) => {
-    console.log("Response Berhasil")
-    res.send("Response Berasil yaw!")
+app.use(bodyParser.json())
+
+app.get("/user", (req, res) => {
+    const sql = "SELECT * FROM user"
+    db.query(sql, (error, result)=>{
+        response(200, result,"get all user", res)
+    })
 })
 
-const PORT = process.env.PORT || 8000
-app.listen(PORT, () => {
-    console.log("Server is up and listening on " + PORT)
-})
+
+
+app.listen(port, () => {
+    console.log(`Server is up and listening on ${port}`);
+});
