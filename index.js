@@ -90,7 +90,7 @@ app.get("/product/:id_produk", (req, res) => {
     })
 })
 
-app.put("/product", (req, res) => {
+app.put("/product/:id_produk", (req, res) => {
     const id_produk = req.params.id_produk
     const {nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
     const sql = `UPDATE product SET nama_produk = '${nama_produk}', besaran_stok = '${besaran_stok}', stok = ${stok}, harga = ${harga}, url_gambar = '${url_gambar}', 
@@ -110,7 +110,7 @@ app.put("/product", (req, res) => {
     })
 })
 
-app.delete("/product", (req, res) => {
+app.delete("/product/:id_produk", (req, res) => {
     const id_produk = req.params.id_produk
     const sql = `DELETE FROM product WHERE id_produk = ${id_produk}`
 
@@ -148,7 +148,7 @@ app.post("/pembelian", (req, res) => {
     })
 })
 
-app.put("/pembelian", (req, res) => {
+app.put("/pembelian/:id_transaksi", (req, res) => {
     const id_transaksi = req.params.id_transaksi
     const {alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at, updated_at} = req.body
 
