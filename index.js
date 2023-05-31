@@ -111,10 +111,10 @@ app.put("/product/:id_produk", (req, res) => {
 })
 
 app.delete("/product/:id_produk", (req, res) => {
-    const id_produk = req.params.id_produk
-    const sql = `DELETE FROM product WHERE id_produk = ${id_produk}`
+    const id_produk = req.params
+    const sql = `DELETE FROM product WHERE id_produk = ?`
 
-    db.query(sql, (error, fields)=>{
+    db.query(sql, [id_produk], (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
         if (fields?.affectedRows){
             const data = {
