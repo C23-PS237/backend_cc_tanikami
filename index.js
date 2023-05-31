@@ -154,7 +154,7 @@ app.put("/pembelian/:id_transaksi", (req, res) => {
 
     const sql = `UPDATE pembelian SET alamat_penerima = '${alamat_penerima}' , harga = ${harga}, jumlah_dibeli = ${jumlah_dibeli}, biaya_pengiriman = ${biaya_pengiriman}, 
     pajak = ${pajak}, biaya_admin = ${biaya_admin}, biaya_total = ${biaya_total}, status_pembayaran = ${status_pembayaran}, status_pengiriman = ${status_pengiriman}, 
-    bukti_transfer = ${bukti_transfer}, created_at = ${created_at}, updated_at = ${updated_at} WHERE id_transaksi = ${id_transaksi}`
+    bukti_transfer = '${bukti_transfer}', created_at = ${created_at}, updated_at = ${updated_at} WHERE id_transaksi = ${id_transaksi}`
 
     db.query(sql, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
@@ -179,10 +179,10 @@ app.get("/pembelian/:id_transaksi", (req, res) => {
 })
 
 app.delete("/pembelian/:id_transaksi", (req, res) => {
-    const {id_transaksi} = req.params.id_transaksi
-    const sql = `DELETE FROM product WHERE id_transaksi = ${id_transaksi}`
+    const {id_transaksi} = req.params
+    const sql = `DELETE FROM pembelian WHERE id_transaksi = ?`
 
-    db.query(sql, (error, fields)=>{
+    db.query(sql, [id_transaksi], (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
         if (fields?.affectedRows){
             const data = {
