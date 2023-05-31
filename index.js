@@ -75,7 +75,7 @@ app.get("/product", (req, res) => {
 
     db.query(sql, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"all product", res)
+        response(200, fields,"all products", res)
     })
 })
 
@@ -127,11 +127,12 @@ app.delete("/product", (req, res) => {
 })
 
 app.post("/pembelian", (req, res) => {
-    const {id_produk, id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
-    const sql = `INSERT INTO `pembelian`(`id_transaksi`, `id_ktp`, `id_produk`, `alamat_penerima`, `harga`, `jumlah_dibeli`, `biaya_pengiriman`, 
-    `pajak`, `biaya_admin`, `biaya_total`, `status_pembayaran`, `status_pengiriman`, `bukti_transfer`, `created_at`, `updated_at`) 
-    VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]','[value-10]',
-    '[value-11]','[value-12]','[value-13]','[value-14]','[value-15]')`
+    const {id_transaksi, id_ktp, id_produk, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, pajak, biaya_admin, biaya_total, status_pembayaran, 
+        status_pengiriman, bukti_transfer, created_at, updated_at} = req.body
+    const sql = `INSERT INTO pembelian(id_transaksi, id_ktp, id_produk, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, 
+    pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at, updated_at) 
+    VALUES (${id_transaksi}, ${id_ktp}, ${id_produk}, '${alamat_penerima}', ${harga}, ${jumlah_dibeli}, ${biaya_pengiriman}, ${pajak},${biaya_admin},
+    ${biaya_total}, ${status_pembayaran}, ${status_pengiriman}, '${bukti_transfer}', ${created_at}, ${updated_at})`
 
     db.query(sql, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
@@ -142,6 +143,72 @@ app.post("/pembelian", (req, res) => {
             }
             response(200, data, "product added", res)
         }
+    })
+})
+
+app.put("/pembelian", (req, res) => {
+    const {id_transaksi, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, pajak, biaya_admin, biaya_total, status_pembayaran, 
+        status_pengiriman, bukti_transfer, created_at, updated_at} = req.body
+    const sql = `UPDATE pembelian SET alamat_penerima = '${alamat_penerima}' , harga = ${harga}, jumlah_dibeli = ${jumlah_dibeli}, biaya_pengiriman = ${biaya_pengiriman}, 
+    pajak = ${pajak}, biaya_admin = ${biaya_admin}, biaya_total = ${biaya_total}, status_pembayaran = ${status_pembayaran}, status_pengiriman = ${status_pengiriman}, 
+    bukti_transfer = ${bukti_transfer}, created_at = ${created_at}, updated_at = ${updated_at} WHERE id_transaksi = ${id_transaksi}`
+
+    db.query(sql, (error, fields)=>{
+        if(error) response(500, "invalid", "error", res)
+        if (fields?.affectedRows){
+            const data = {
+                isSuccess: fields.affectedRows,
+                id: fields.insertId
+            }
+            response(200, data, "product added", res)
+        }
+    })
+})
+
+app.get("/pembelian/:id_pembelian", (req, res) => {
+    const id_pembelian = req.params.id_pembelian
+    const sql = `SELECT * FROM pembelian WHERE id_pembelian = ${id_pembelian}`
+
+    db.query(sql, (error, fields)=>{
+        if(error) throw error
+        response(200, fields,"purchase detail", res)
+    })
+})
+
+app.delete("/pembelian/:id_pembelian", (req, res) => {
+    const {id_pembelian} = req.params.id_pembelian
+    const sql = `DELETE FROM product WHERE id_pembelian = ${id_pembelian}`
+
+    db.query(sql, (error, fields)=>{
+        if(error) response(500, "invalid", "error", res)
+        if (fields?.affectedRows){
+            const data = {
+                isSuccess: fields.affectedRows,
+                message: fields.message,
+            }
+            response(200, data, "data deleted", res)
+        } else {
+            response(404, "wrong", "error", res)
+        }
+    })
+})
+
+app.get("/artikel", (req, res) => {
+    const sql = `SELECT * FROM artikel`
+
+    db.query(sql, (error, fields)=>{
+        if(error) throw error
+        response(200, fields,"all articles", res)
+    })
+})
+
+app.get("/artikel/:id_artikel", (req, res) => {
+    const id_artikel = req.params.id_artikel
+    const sql = `SELECT * FROM artikel WHERE id_artikel = ${id_artikel}`
+
+    db.query(sql, (error, fields)=>{
+        if(error) throw error
+        response(200, fields,"article detail", res)
     })
 })
 
