@@ -34,8 +34,9 @@ app.post("/user", (req, res) => {
     })
 })
 
-app.put("/user", (req, res) => {
-    const {id_ktp, nama, telepon, alamat_regist, alamat_penerima, gender, usia, status} = req.body
+app.put("/user/:id_ktp", (req, res) => {
+    const id_ktp = req.params.id_ktp
+    const {nama, telepon, alamat_regist, alamat_penerima, gender, usia, status} = req.body
     const sql = `UPDATE user SET nama = '${nama}', telepon = '${telepon}', alamat_regist = '${alamat_regist}',
     alamat_penerima = '${alamat_penerima}', gender = ${gender}, usia = ${usia}, status = ${status} WHERE id_ktp = ${id_ktp}`
 
@@ -90,7 +91,8 @@ app.get("/product/:id_produk", (req, res) => {
 })
 
 app.put("/product", (req, res) => {
-    const {id_produk, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
+    const id_produk = req.params.id_produk
+    const {nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
     const sql = `UPDATE product SET nama_produk = '${nama_produk}', besaran_stok = '${besaran_stok}', stok = ${stok}, harga = ${harga}, url_gambar = '${url_gambar}', 
     deskripsi_produk = '${deskripsi_produk}', nama_bank = '${nama_bank}', rek_penjual = '${rek_penjual}', timestamp = ${timestamp} WHERE id_produk = ${id_produk}`
 
@@ -109,7 +111,7 @@ app.put("/product", (req, res) => {
 })
 
 app.delete("/product", (req, res) => {
-    const {id_produk} = req.body
+    const id_produk = req.params.id_produk
     const sql = `DELETE FROM product WHERE id_produk = ${id_produk}`
 
     db.query(sql, (error, fields)=>{
@@ -147,8 +149,9 @@ app.post("/pembelian", (req, res) => {
 })
 
 app.put("/pembelian", (req, res) => {
-    const {id_transaksi, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, pajak, biaya_admin, biaya_total, status_pembayaran, 
-        status_pengiriman, bukti_transfer, created_at, updated_at} = req.body
+    const id_transaksi = req.params.id_transaksi
+    const {alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at, updated_at} = req.body
+
     const sql = `UPDATE pembelian SET alamat_penerima = '${alamat_penerima}' , harga = ${harga}, jumlah_dibeli = ${jumlah_dibeli}, biaya_pengiriman = ${biaya_pengiriman}, 
     pajak = ${pajak}, biaya_admin = ${biaya_admin}, biaya_total = ${biaya_total}, status_pembayaran = ${status_pembayaran}, status_pengiriman = ${status_pengiriman}, 
     bukti_transfer = ${bukti_transfer}, created_at = ${created_at}, updated_at = ${updated_at} WHERE id_transaksi = ${id_transaksi}`
@@ -165,9 +168,9 @@ app.put("/pembelian", (req, res) => {
     })
 })
 
-app.get("/pembelian/:id_pembelian", (req, res) => {
-    const id_pembelian = req.params.id_pembelian
-    const sql = `SELECT * FROM pembelian WHERE id_pembelian = ${id_pembelian}`
+app.get("/pembelian/:id_transaksi", (req, res) => {
+    const id_transaksi = req.params.id_transaksi
+    const sql = `SELECT * FROM pembelian WHERE id_transaksi = ${id_transaksi}`
 
     db.query(sql, (error, fields)=>{
         if(error) throw error
@@ -175,9 +178,9 @@ app.get("/pembelian/:id_pembelian", (req, res) => {
     })
 })
 
-app.delete("/pembelian/:id_pembelian", (req, res) => {
-    const {id_pembelian} = req.params.id_pembelian
-    const sql = `DELETE FROM product WHERE id_pembelian = ${id_pembelian}`
+app.delete("/pembelian/:id_transaksi", (req, res) => {
+    const {id_transaksi} = req.params.id_transaksi
+    const sql = `DELETE FROM product WHERE id_transaksi = ${id_transaksi}`
 
     db.query(sql, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
