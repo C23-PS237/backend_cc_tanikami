@@ -111,7 +111,7 @@ app.put("/product/:id_produk", (req, res) => {
 })
 
 app.delete("/product/:id_produk", (req, res) => {
-    const id_produk = req.params
+    const {id_produk} = req.params
     const sql = `DELETE FROM product WHERE id_produk = ?`
 
     db.query(sql, [id_produk], (error, fields)=>{
@@ -179,7 +179,7 @@ app.get("/pembelian/:id_transaksi", (req, res) => {
 })
 
 app.delete("/pembelian/:id_transaksi", (req, res) => {
-    const id_transaksi = req.params
+    const {id_transaksi} = req.params
     const sql = `DELETE FROM pembelian WHERE id_transaksi = ?`
 
     db.query(sql, id_transaksi, (error, fields)=>{
