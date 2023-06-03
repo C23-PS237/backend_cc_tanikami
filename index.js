@@ -179,10 +179,10 @@ app.get("/pembelian/:id_transaksi", (req, res) => {
 })
 
 app.delete("/pembelian/:id_transaksi", (req, res) => {
-    const {id_transaksi} = req.params
+    const id_transaksi = req.params
     const sql = `DELETE FROM pembelian WHERE id_transaksi = ?`
 
-    db.query(sql, [id_transaksi], (error, fields)=>{
+    db.query(sql, id_transaksi, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
         if (fields?.affectedRows){
             const data = {
