@@ -58,11 +58,31 @@ app.post("/user", (req, res) => {
 
 app.put("/user/:id_ktp", (req, res) => {
     const id_ktp = req.params.id_ktp
-    const {nama, telepon, alamat_regist, alamat_penerima, gender, usia, status} = req.body
-    const sql = `UPDATE user SET nama = '${nama}', telepon = '${telepon}', alamat_regist = '${alamat_regist}',
-    alamat_penerima = '${alamat_penerima}', gender = ${gender}, usia = ${usia}, status = ${status} WHERE id_ktp = ${id_ktp}`
+    const {
+        nama, 
+        telepon, 
+        alamat_regist, 
+        alamat_penerima, 
+        gender, 
+        usia, 
+        status
+    } = req.body;
 
-    db.query(sql, (error, fields)=>{
+    const sql = `UPDATE user SET nama = ?, telepon = ?, alamat_regist = ?, alamat_penerima = ?, 
+    gender = ?, usia = ?, status = ? WHERE id_ktp = ?`
+
+    const values = [
+        nama, 
+        telepon, 
+        alamat_regist, 
+        alamat_penerima, 
+        gender, 
+        usia, 
+        status,
+        id_ktp
+    ];
+
+    db.query(sql, values, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
         if (fields?.affectedRows){
             const data = {
