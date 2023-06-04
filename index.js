@@ -149,10 +149,10 @@ app.get("/produk", (req, res) => {
 })
 
 app.get("/produk/:id_produk", (req, res) => {
-    const id_produk = req.params.id_produk
-    const sql = `SELECT * FROM produk WHERE id_produk = ${id_produk}`
+    const {id_produk} = req.params
+    const sql = `SELECT * FROM produk WHERE id_produk = ?`
 
-    db.query(sql, (error, fields)=>{
+    db.query(sql, id_produk, (error, fields)=>{
         if(error) throw error
         response(200, fields,"product detail", res)
     })
@@ -160,11 +160,35 @@ app.get("/produk/:id_produk", (req, res) => {
 
 app.put("/produk/:id_produk", (req, res) => {
     const id_produk = req.params.id_produk
-    const {nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
-    const sql = `UPDATE produk SET nama_produk = '${nama_produk}', besaran_stok = '${besaran_stok}', stok = ${stok}, harga = ${harga}, url_gambar = '${url_gambar}', 
-    deskripsi_produk = '${deskripsi_produk}', nama_bank = '${nama_bank}', rek_penjual = '${rek_penjual}', timestamp = ${timestamp} WHERE id_produk = ${id_produk}`
+    const {
+        nama_produk, 
+        besaran_stok, 
+        stok, 
+        harga, 
+        url_gambar, 
+        deskripsi_produk, 
+        nama_bank, 
+        rek_penjual, 
+        timestamp
+    } = req.body
 
-    db.query(sql, (error, fields)=>{
+    const sql = `UPDATE produk SET nama_produk = ?, besaran_stok = ?, stok = ?, harga = ?, url_gambar = ?, 
+    deskripsi_produk = ?, nama_bank = ?, rek_penjual = ?, timestamp = ? WHERE id_produk = ?`
+    
+    const values = [
+        nama_produk, 
+        besaran_stok, 
+        stok, 
+        harga, 
+        url_gambar, 
+        deskripsi_produk, 
+        nama_bank, 
+        rek_penjual, 
+        timestamp,
+        id_produk
+    ]
+
+    db.query(sql, values, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
         if (fields?.affectedRows){
             const data = {
