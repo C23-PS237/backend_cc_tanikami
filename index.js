@@ -55,9 +55,9 @@ app.put("/user/:id_ktp", (req, res) => {
 })
 
 app.post("/product", (req, res) => {
-    const {id_produk, id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
-    const sql = `INSERT INTO product (id_produk, id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp) 
-    VALUES (${id_produk}, ${id_ktp},'${nama_produk}','${besaran_stok}',${stok},${harga},'${url_gambar}','${deskripsi_produk}','${nama_bank}','${rek_penjual}',${timestamp})`
+    const {id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
+    const sql = `INSERT INTO product (id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp) 
+    VALUES (${id_ktp},'${nama_produk}','${besaran_stok}',${stok},${harga},'${url_gambar}','${deskripsi_produk}','${nama_bank}','${rek_penjual}',${timestamp})`
 
     db.query(sql, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
@@ -128,25 +128,58 @@ app.delete("/product/:id_produk", (req, res) => {
     })
 })
 
-app.post("/pembelian", (req, res) => {
-    const {id_transaksi, id_ktp, id_produk, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, pajak, biaya_admin, biaya_total, status_pembayaran, 
-        status_pengiriman, bukti_transfer, created_at, updated_at} = req.body
-    const sql = `INSERT INTO pembelian(id_transaksi, id_ktp, id_produk, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, 
-    pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at, updated_at) 
-    VALUES (${id_transaksi}, ${id_ktp}, ${id_produk}, '${alamat_penerima}', ${harga}, ${jumlah_dibeli}, ${biaya_pengiriman}, ${pajak},${biaya_admin},
-    ${biaya_total}, ${status_pembayaran}, ${status_pengiriman}, '${bukti_transfer}', ${created_at}, ${updated_at})`
+app.post("/pembelian/:id_ktp&:id_produk", (req, res) => {
+    const id_ktp = req.params.id_ktp;
+    const id_produk = req.params.id_produk;
+    const {
+        alamat_penerima,
+        harga,
+        jumlah_dibeli,
+        biaya_pengiriman,
+        pajak,
+        biaya_admin,
+        biaya_total,
+        status_pembayaran,
+        status_pengiriman,
+        bukti_transfer,
+        created_at,
+        updated_at
+    } = req.body;
 
-    db.query(sql, (error, fields)=>{
-        if(error) response(500, "invalid", "error", res)
-        if (fields?.affectedRows){
+    const sql = `INSERT INTO pembelian(id_ktp, id_produk, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, 
+        pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    const values = [
+        id_ktp,
+        id_produk,
+        alamat_penerima,
+        harga,
+        jumlah_dibeli,
+        biaya_pengiriman,
+        pajak,
+        biaya_admin,
+        biaya_total,
+        status_pembayaran,
+        status_pengiriman,
+        bukti_transfer,
+        created_at,
+        updated_at
+    ];
+
+    db.query(sql, values, (error, results) => {
+        if (error) {
+            res.status(500).json({ error: "Failed to insert product" });
+        } else {
             const data = {
-                isSuccess: fields.affectedRows,
-                id: fields.insertId
-            }
-            response(200, data, "product added", res)
+                isSuccess: results.affectedRows > 0,
+                id: results.insertId
+            };
+            res.status(200).json({ data: data, message: "Product added" });
         }
-    })
-})
+    });
+});
+
 
 app.put("/pembelian/:id_transaksi", (req, res) => {
     const id_transaksi = req.params.id_transaksi
