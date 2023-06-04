@@ -96,22 +96,48 @@ app.put("/user/:id_ktp", (req, res) => {
     })
 })
 
-app.post("/produk", (req, res) => {
-    const {id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
-    const sql = `INSERT INTO produk (id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp) 
-    VALUES (${id_ktp},'${nama_produk}','${besaran_stok}',${stok},${harga},'${url_gambar}','${deskripsi_produk}','${nama_bank}','${rek_penjual}',${timestamp})`
+app.post("/produk/:id_ktp", (req, res) => {
+    const id_ktp = req.params.id_ktp;
+    const {
+        nama_produk,
+        besaran_stok,
+        stok,
+        harga,
+        url_gambar,
+        deskripsi_produk,
+        nama_bank,
+        rek_penjual,
+        timestamp
+    } = req.body;
 
-    db.query(sql, (error, fields)=>{
-        if(error) response(500, "invalid", "error", res)
-        if (fields?.affectedRows){
+    const sql = `INSERT INTO produk (id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, 
+        nama_bank, rek_penjual, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    const values = [
+        id_ktp,
+        nama_produk,
+        besaran_stok,
+        stok,
+        harga,
+        url_gambar,
+        deskripsi_produk,
+        nama_bank,
+        rek_penjual,
+        timestamp
+    ];
+
+    db.query(sql, values, (error, results) => {
+        if (error) {
+            res.status(500).json({ error: "Failed to insert product" });
+        } else {
             const data = {
-                isSuccess: fields.affectedRows,
-                id: fields.insertId
-            }
-            response(200, data, "product added", res)
+                isSuccess: results.affectedRows > 0,
+                id: results.insertId
+            };
+            res.status(200).json({ data: data, message: "Product added" });
         }
-    })
-})
+    });
+});
 
 app.get("/produk", (req, res) => {
     const sql = `SELECT * FROM produk`
