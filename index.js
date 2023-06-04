@@ -321,10 +321,10 @@ app.put("/pembelian/:id_transaksi", (req, res) => {
 })
 
 app.get("/pembelian/:id_transaksi", (req, res) => {
-    const id_transaksi = req.params.id_transaksi
-    const sql = `SELECT * FROM pembelian WHERE id_transaksi = ${id_transaksi}`
+    const id_transaksi = req.params
+    const sql = `SELECT * FROM pembelian WHERE id_transaksi = ?`
 
-    db.query(sql, (error, fields)=>{
+    db.query(sql, id_transaksi, (error, fields)=>{
         if(error) throw error
         response(200, fields,"purchase detail", res)
     })
