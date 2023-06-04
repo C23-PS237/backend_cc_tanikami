@@ -54,9 +54,9 @@ app.put("/user/:id_ktp", (req, res) => {
     })
 })
 
-app.post("/product", (req, res) => {
+app.post("/produk", (req, res) => {
     const {id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
-    const sql = `INSERT INTO product (id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp) 
+    const sql = `INSERT INTO produk (id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp) 
     VALUES (${id_ktp},'${nama_produk}','${besaran_stok}',${stok},${harga},'${url_gambar}','${deskripsi_produk}','${nama_bank}','${rek_penjual}',${timestamp})`
 
     db.query(sql, (error, fields)=>{
@@ -71,8 +71,8 @@ app.post("/product", (req, res) => {
     })
 })
 
-app.get("/product", (req, res) => {
-    const sql = `SELECT * FROM product`
+app.get("/produk", (req, res) => {
+    const sql = `SELECT * FROM produk`
 
     db.query(sql, (error, fields)=>{
         if(error) throw error
@@ -80,9 +80,9 @@ app.get("/product", (req, res) => {
     })
 })
 
-app.get("/product/:id_produk", (req, res) => {
+app.get("/produk/:id_produk", (req, res) => {
     const id_produk = req.params.id_produk
-    const sql = `SELECT * FROM product WHERE id_produk = ${id_produk}`
+    const sql = `SELECT * FROM produk WHERE id_produk = ${id_produk}`
 
     db.query(sql, (error, fields)=>{
         if(error) throw error
@@ -90,10 +90,10 @@ app.get("/product/:id_produk", (req, res) => {
     })
 })
 
-app.put("/product/:id_produk", (req, res) => {
+app.put("/produk/:id_produk", (req, res) => {
     const id_produk = req.params.id_produk
     const {nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, nama_bank, rek_penjual, timestamp} = req.body
-    const sql = `UPDATE product SET nama_produk = '${nama_produk}', besaran_stok = '${besaran_stok}', stok = ${stok}, harga = ${harga}, url_gambar = '${url_gambar}', 
+    const sql = `UPDATE produk SET nama_produk = '${nama_produk}', besaran_stok = '${besaran_stok}', stok = ${stok}, harga = ${harga}, url_gambar = '${url_gambar}', 
     deskripsi_produk = '${deskripsi_produk}', nama_bank = '${nama_bank}', rek_penjual = '${rek_penjual}', timestamp = ${timestamp} WHERE id_produk = ${id_produk}`
 
     db.query(sql, (error, fields)=>{
@@ -110,9 +110,9 @@ app.put("/product/:id_produk", (req, res) => {
     })
 })
 
-app.delete("/product/:id_produk", (req, res) => {
+app.delete("/produk/:id_produk", (req, res) => {
     const {id_produk} = req.params
-    const sql = `DELETE FROM product WHERE id_produk = ?`
+    const sql = `DELETE FROM produk WHERE id_produk = ?`
 
     db.query(sql, [id_produk], (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
@@ -128,7 +128,7 @@ app.delete("/product/:id_produk", (req, res) => {
     })
 })
 
-app.post("/pembelian/:id_ktp&:id_produk", (req, res) => {
+app.post("/pembelian/:id_ktp/:id_produk", (req, res) => {
     const id_ktp = req.params.id_ktp;
     const id_produk = req.params.id_produk;
     const {
