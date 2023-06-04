@@ -8,11 +8,11 @@ const response = require('./response.js')
 app.use(bodyParser.json())
 
 app.get("/user/:id_ktp", (req, res) => {
-    const id_ktp = req.params.id_ktp
+    const {id_ktp} = req.params
 
-    const sql = `SELECT * FROM user WHERE id_ktp = ${id_ktp}`
+    const sql = `SELECT * FROM user WHERE id_ktp = ?`
 
-    db.query(sql, (error, fields)=>{
+    db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
         response(200, fields,"user detail", res)
     })
