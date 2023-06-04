@@ -275,13 +275,40 @@ app.post("/pembelian/:id_ktp/:id_produk", (req, res) => {
 
 app.put("/pembelian/:id_transaksi", (req, res) => {
     const id_transaksi = req.params.id_transaksi
-    const {alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at, updated_at} = req.body
+    const {
+        alamat_penerima, 
+        harga, 
+        jumlah_dibeli, 
+        biaya_pengiriman, 
+        pajak, 
+        biaya_admin, 
+        biaya_total, 
+        status_pembayaran, 
+        status_pengiriman, 
+        bukti_transfer, 
+        updated_at
+    } = req.body
 
-    const sql = `UPDATE pembelian SET alamat_penerima = '${alamat_penerima}' , harga = ${harga}, jumlah_dibeli = ${jumlah_dibeli}, biaya_pengiriman = ${biaya_pengiriman}, 
-    pajak = ${pajak}, biaya_admin = ${biaya_admin}, biaya_total = ${biaya_total}, status_pembayaran = ${status_pembayaran}, status_pengiriman = ${status_pengiriman}, 
-    bukti_transfer = '${bukti_transfer}', created_at = ${created_at}, updated_at = ${updated_at} WHERE id_transaksi = ${id_transaksi}`
+    const sql = `UPDATE pembelian SET alamat_penerima = ? , harga = ?, jumlah_dibeli = ?, biaya_pengiriman = ?, 
+    pajak = ?, biaya_admin = ?, biaya_total = ?, status_pembayaran = ?, status_pengiriman = ?, 
+    bukti_transfer = ?, updated_at = ? WHERE id_transaksi = ?`
 
-    db.query(sql, (error, fields)=>{
+    const values = [
+        alamat_penerima, 
+        harga, 
+        jumlah_dibeli, 
+        biaya_pengiriman, 
+        pajak, 
+        biaya_admin, 
+        biaya_total, 
+        status_pembayaran, 
+        status_pengiriman, 
+        bukti_transfer, 
+        updated_at,
+        id_transaksi
+    ]
+
+    db.query(sql, values, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
         if (fields?.affectedRows){
             const data = {
