@@ -348,7 +348,6 @@ app.delete("/pembelian/:id_transaksi", (req, res) => {
     })
 })
 
-
 app.get("/artikel", (req, res) => {
     const sql = `SELECT * FROM artikel`
 
@@ -359,10 +358,10 @@ app.get("/artikel", (req, res) => {
 })
 
 app.get("/artikel/:id_artikel", (req, res) => {
-    const id_artikel = req.params.id_artikel
-    const sql = `SELECT * FROM artikel WHERE id_artikel = ${id_artikel}`
+    const {id_artikel} = req.params
+    const sql = `SELECT * FROM artikel WHERE id_artikel = ?`
 
-    db.query(sql, (error, fields)=>{
+    db.query(sql, id_artikel, (error, fields)=>{
         if(error) throw error
         response(200, fields,"article detail", res)
     })
