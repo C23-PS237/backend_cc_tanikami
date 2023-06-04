@@ -9,6 +9,7 @@ app.use(bodyParser.json())
 
 app.get("/user/:id_ktp", (req, res) => {
     const id_ktp = req.params.id_ktp
+
     const sql = `SELECT * FROM user WHERE id_ktp = ${id_ktp}`
 
     db.query(sql, (error, fields)=>{
@@ -18,11 +19,32 @@ app.get("/user/:id_ktp", (req, res) => {
 })
 
 app.post("/user", (req, res) => {
-    const {id_ktp, nama, telepon, alamat_regist, alamat_penerima, gender, usia, status} = req.body
-    const sql = `INSERT INTO user(id_ktp, nama, telepon, alamat_regist, alamat_penerima, gender, usia, status) 
-    VALUES (${id_ktp}, '${nama}','${telepon}','${alamat_regist}','${alamat_penerima}',${gender},${usia},${status})`
+    const {
+        id_ktp, 
+        nama, 
+        telepon, 
+        alamat_regist, 
+        alamat_penerima, 
+        gender, 
+        usia, 
+        status
+    } = req.body;
 
-    db.query(sql, (error, fields)=>{
+    const sql = `INSERT INTO user(id_ktp, nama, telepon, alamat_regist, alamat_penerima, gender, usia, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+
+    const values = [
+        id_ktp, 
+        nama, 
+        telepon, 
+        alamat_regist, 
+        alamat_penerima, 
+        gender, 
+        usia, 
+        status
+    ];
+
+    db.query(sql, values, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
         if (fields?.affectedRows){
             const data = {
