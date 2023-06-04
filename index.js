@@ -206,7 +206,7 @@ app.delete("/produk/:id_produk", (req, res) => {
     const {id_produk} = req.params
     const sql = `DELETE FROM produk WHERE id_produk = ?`
 
-    db.query(sql, [id_produk], (error, fields)=>{
+    db.query(sql, id_produk, (error, fields)=>{
         if(error) response(500, "invalid", "error", res)
         if (fields?.affectedRows){
             const data = {
@@ -321,7 +321,7 @@ app.put("/pembelian/:id_transaksi", (req, res) => {
 })
 
 app.get("/pembelian/:id_transaksi", (req, res) => {
-    const id_transaksi = req.params
+    const {id_transaksi} = req.params
     const sql = `SELECT * FROM pembelian WHERE id_transaksi = ?`
 
     db.query(sql, id_transaksi, (error, fields)=>{
@@ -347,6 +347,7 @@ app.delete("/pembelian/:id_transaksi", (req, res) => {
         }
     })
 })
+
 
 app.get("/artikel", (req, res) => {
     const sql = `SELECT * FROM artikel`
