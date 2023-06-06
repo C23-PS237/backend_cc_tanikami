@@ -5,7 +5,12 @@ const app = express()
 const db = require ('./connection.js')
 const response = require('./response.js')
 
-app.use(bodyParser.json())
+//app.use(bodyParser.json())
+app.use(
+    express.urlencoded({
+      extended: true,
+    })
+  )
 
 app.get("/user/:id_ktp", (req, res) => {
     const {id_ktp} = req.params
