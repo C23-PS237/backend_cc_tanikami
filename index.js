@@ -26,7 +26,10 @@ app.get("/user/:id_ktp", (req, res) => {
 app.post("/user", (req, res) => {
     const {
         id_ktp, 
+        profil,
         nama, 
+        email,
+        password,
         telepon, 
         alamat_regist, 
         alamat_penerima, 
@@ -35,12 +38,15 @@ app.post("/user", (req, res) => {
         status
     } = req.body;
 
-    const sql = `INSERT INTO user(id_ktp, nama, telepon, alamat_regist, alamat_penerima, gender, usia, status) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    const sql = `INSERT INTO user(id_ktp, profil, nama, email, password, telepon, alamat_regist, alamat_penerima, gender, usia, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
     const values = [
         id_ktp, 
+        profil,
         nama, 
+        email,
+        password,
         telepon, 
         alamat_regist, 
         alamat_penerima, 
@@ -64,6 +70,7 @@ app.post("/user", (req, res) => {
 app.put("/user/:id_ktp", (req, res) => {
     const id_ktp = req.params.id_ktp
     const {
+        profil,
         nama, 
         telepon, 
         alamat_regist, 
@@ -73,10 +80,11 @@ app.put("/user/:id_ktp", (req, res) => {
         status
     } = req.body;
 
-    const sql = `UPDATE user SET nama = ?, telepon = ?, alamat_regist = ?, alamat_penerima = ?, 
+    const sql = `UPDATE user SET profil = ?, nama = ?, telepon = ?, alamat_regist = ?, alamat_penerima = ?, 
     gender = ?, usia = ?, status = ? WHERE id_ktp = ?`
 
     const values = [
+        profil,
         nama, 
         telepon, 
         alamat_regist, 
