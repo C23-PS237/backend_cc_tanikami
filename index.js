@@ -39,10 +39,9 @@ app.post('/uploads', async (req, res, next) => {
 
 app.use((err, req, res, next) => {
     res.status(500).json({
-      error: err,
+      error: err.message,
       message: 'Internal server error!',
     })
-    next()
 })
 
 app.get("/user/:id_ktp", (req, res) => {
