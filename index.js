@@ -2,48 +2,19 @@ require('@google-cloud/debug-agent').start()
 
 const bodyParser = require('body-parser')
 const express = require('express')
-const multer = require('multer')
-const db = require ('./connection.js')
-const response = require('./response.js')
-const uploadImage = require('./helpers/helpers')
-
 const port = process.env.PORT || 8080
 const app = express()
+const Multer = require('multer')
+const db = require ('./connection.js')
+const response = require('./response.js')
+const imgUpload = require('./imgUpload.js')
 
-const multerMid = multer({
-    storage: multer.memoryStorage(),
-    limits: {
-      fileSize: 5 * 1024 * 1024,
-    },
+const multer = Multer({
+    storage: Multer.MemoryStorage,
+    fileSize: 5 * 1024 * 1024
 })
 
-app.disable('x-powered-by')
-app.use(multerMid.single('file'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
-
-app.post('/uploads', async (req, res, next) => {
-    try {
-      const myFile = req.file
-      const imageUrl = await uploadImage(myFile)
-      res
-        .status(200)
-        .json({
-          message: "Upload was successful",
-          data: imageUrl
-        })
-    } catch (error) {
-      next(error)
-    }
-})
-
-app.use((err, req, res, next) => {
-    res.status(500).json({
-      error: err,
-      message: 'Internal server error!',
-    })
-    next();
-})
+app.use(bodyParser.urlencoded({extended: true}))
 
 app.get("/user/:id_ktp", (req, res) => {
     const {id_ktp} = req.params
@@ -56,7 +27,7 @@ app.get("/user/:id_ktp", (req, res) => {
     })
 })
 
-app.post("/user",(req, res) => {
+app.post("/user", multer.single('profil'), imgUpload.uploadToGcs, (req, res) => {
 
     const {
         id_ktp, 
@@ -70,6 +41,12 @@ app.post("/user",(req, res) => {
         usia, 
         status
     } = req.body;
+
+    var profil = ''
+
+    if (req.file && req.file.cloudStoragePublicUrl) {
+        profil = req.file.cloudStoragePublicUrl
+    }
 
     const sql = `INSERT INTO user(id_ktp, profil, nama, email, password, telepon, alamat_regist, alamat_penerima, gender, usia, status) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
