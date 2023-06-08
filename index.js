@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const fileUpload = require('express-fileupload');
+const multer = require('multer')
 const port = process.env.PORT || 3000
 const app = express()
 const db = require ('./connection.js')
