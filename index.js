@@ -36,7 +36,7 @@ app.get("/user/:id_ktp", (req, res) => {
     })
 })
 
-app.post("/user", (req, res) => {
+app.post("/user", multer.single('attachment'), imgUpload.uploadToGcs, (req, res) => {
 
     const {
         id_ktp, 
@@ -51,12 +51,18 @@ app.post("/user", (req, res) => {
         status
     } = req.body;
 
+    var imageUrl = ''
 
-    const sql = `INSERT INTO user(id_ktp, nama, email, password, telepon, alamat_regist, alamat_penerima, gender, usia, status) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    if (req.file && req.file.cloudStoragePublicUrl) {
+        profil = req.file.cloudStoragePublicUrl
+    }
+
+    const sql = `INSERT INTO user(id_ktp, profil, nama, email, password, telepon, alamat_regist, alamat_penerima, gender, usia, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
     const values = [
         id_ktp, 
+        profil,
         nama, 
         email,
         password,
