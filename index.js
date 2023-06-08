@@ -1,3 +1,5 @@
+require('@google-cloud/debug-agent').start()
+
 const bodyParser = require('body-parser')
 const express = require('express')
 const port = process.env.PORT || 8080
@@ -8,7 +10,7 @@ const response = require('./response.js')
 const imgUpload = require('./imgUpload.js')
 
 const multer = Multer({
-    storage: Multer.MemoryStorage,
+    storage: Multer.MemoryStorage(),
     fileSize: 5 * 1024 * 1024
 })
 
@@ -40,7 +42,7 @@ app.post("/user", multer.single('profil'), imgUpload.uploadToGcs, (req, res) => 
         status
     } = req.body;
 
-    var imageUrl = ''
+    var profil = ''
 
     if (req.file && req.file.cloudStoragePublicUrl) {
         profil = req.file.cloudStoragePublicUrl
