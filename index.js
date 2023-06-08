@@ -1,30 +1,18 @@
 const bodyParser = require('body-parser')
 const express = require('express')
-const fileUpload = require('express-fileupload');
-const multer = require('multer')
 const port = process.env.PORT || 8080
 const app = express()
+const Multer = require('multer')
 const db = require ('./connection.js')
 const response = require('./response.js')
 const imgUpload = require('./imgUpload.js')
 
-const multerMid = multer({
-    storage: multer.memoryStorage(),
-    limits: {
-      fileSize: 5 * 1024 * 1024,
-    },
+const multer = Multer({
+    storage: Multer.MemoryStorage,
+    fileSize: 5 * 1024 * 1024
 })
 
-app.disable('x-powered-by')
-app.use(multerMid.single('file'))
-app.use(bodyParser.json())  
-//app.use(bodyParser.json())
-
-app.use(
-    express.urlencoded({
-      extended: true,
-    })
-  )
+app.use(bodyParser.urlencoded({extended: true}))
 
 app.get("/user/:id_ktp", (req, res) => {
     const {id_ktp} = req.params
