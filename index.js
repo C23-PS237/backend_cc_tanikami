@@ -1,3 +1,5 @@
+require('@google-cloud/debug-agent').start()
+
 const bodyParser = require('body-parser')
 const express = require('express')
 const fileUpload = require('express-fileupload');
@@ -6,6 +8,7 @@ const port = process.env.PORT || 3000
 const app = express()
 const db = require ('./connection.js')
 const response = require('./response.js')
+const imgUpload = require('../modules/imgUpload')
 
 const multerMid = multer({
     storage: multer.memoryStorage(),
