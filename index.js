@@ -1,11 +1,21 @@
 const bodyParser = require('body-parser')
 const express = require('express')
+const fileUpload = require('express-fileupload');
 const port = process.env.PORT || 3000
 const app = express()
 const db = require ('./connection.js')
 const response = require('./response.js')
 
 //app.use(bodyParser.json())
+app.use(
+    fileUpload({
+        limits: {
+            fileSize: 10000000,
+        },
+        abortOnLimit: true,
+    })
+);
+
 app.use(
     express.urlencoded({
       extended: true,
@@ -24,9 +34,13 @@ app.get("/user/:id_ktp", (req, res) => {
 })
 
 app.post("/user", (req, res) => {
+    const {profil}=req.files;
+    if (!image) return res.sendStatus(400);
+    if (/^image/.test(image.mimetype)) return res.sendStatus(400);
+    image.mv('https://console.cloud.google.com/storage/browser/tanikami' + '/profil/' + image.name);
+
     const {
         id_ktp, 
-        profil,
         nama, 
         email,
         password,
@@ -38,12 +52,12 @@ app.post("/user", (req, res) => {
         status
     } = req.body;
 
-    const sql = `INSERT INTO user(id_ktp, profil, nama, email, password, telepon, alamat_regist, alamat_penerima, gender, usia, status) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+
+    const sql = `INSERT INTO user(id_ktp, nama, email, password, telepon, alamat_regist, alamat_penerima, gender, usia, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
     const values = [
         id_ktp, 
-        profil,
         nama, 
         email,
         password,
