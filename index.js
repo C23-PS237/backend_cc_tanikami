@@ -10,7 +10,7 @@ const response = require('./response.js')
 const imgUpload = require('./imgUpload.js')
 
 const multer = Multer({
-    storage: Multer.MemoryStorage(),
+    storage: Multer.MemoryStorage,
     fileSize: 5 * 1024 * 1024
 })
 
