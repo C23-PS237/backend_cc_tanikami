@@ -37,10 +37,6 @@ app.get("/user/:id_ktp", (req, res) => {
 })
 
 app.post("/user", (req, res) => {
-    const {profil}=req.files;
-    if (!image) return res.sendStatus(400);
-    if (/^image/.test(image.mimetype)) return res.sendStatus(400);
-    image.mv('https://console.cloud.google.com/storage/browser/tanikami' + '/profil/' + image.name);
 
     const {
         id_ktp, 
