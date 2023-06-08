@@ -16,44 +16,8 @@ const multerMid = multer({
 
 app.disable('x-powered-by')
 app.use(multerMid.single('file'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
-
-app.post('/uploads', async (req, res, next) => {
-    try {
-      const myFile = req.file
-      const imageUrl = await uploadImage(myFile)
-      res
-        .status(200)
-        .json({
-          message: "Upload was successful",
-          data: imageUrl
-        })
-    } catch (error) {
-      next(error)
-    }
-  })
-  
-app.use((err, req, res, next) => {
-    res.status(500).json({
-        error: err,
-        message: 'Internal server error!',
-    })
-    next()
-})
-
-app.post('/uploads', (req, res, next) => {
-})
-  
+app.use(bodyParser.json())  
 //app.use(bodyParser.json())
-app.use(
-    fileUpload({
-        limits: {
-            fileSize: 10000000,
-        },
-        abortOnLimit: true,
-    })
-);
 
 app.use(
     express.urlencoded({
