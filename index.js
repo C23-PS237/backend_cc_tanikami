@@ -1,14 +1,12 @@
-require('@google-cloud/debug-agent').start()
-
 const bodyParser = require('body-parser')
 const express = require('express')
 const fileUpload = require('express-fileupload');
 const multer = require('multer')
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 const app = express()
 const db = require ('./connection.js')
 const response = require('./response.js')
-const imgUpload = require('../modules/imgUpload')
+const imgUpload = require('./imgUpload.js')
 
 const multerMid = multer({
     storage: multer.memoryStorage(),
@@ -39,7 +37,7 @@ app.get("/user/:id_ktp", (req, res) => {
     })
 })
 
-app.post("/user", multer.single('attachment'), imgUpload.uploadToGcs, (req, res) => {
+app.post("/user", multer.single('profil'), imgUpload.uploadToGcs, (req, res) => {
 
     const {
         id_ktp, 
