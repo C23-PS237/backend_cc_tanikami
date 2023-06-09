@@ -399,6 +399,16 @@ app.get("/pembelian/:id_transaksi", (req, res) => {
     })
 })
 
+app.get("/pembelian/ktp/:id_ktp", (req, res) => {
+    const {id_ktp} = req.params
+    const sql = `SELECT * FROM pembelian WHERE id_ktp = ?`
+
+    db.query(sql, id_ktp, (error, fields)=>{
+        if(error) throw error
+        response(200, fields,"purchase detail", res)
+    })
+})
+
 app.delete("/pembelian/:id_transaksi", (req, res) => {
     const {id_transaksi} = req.params
     const sql = `DELETE FROM pembelian WHERE id_transaksi = ?`
