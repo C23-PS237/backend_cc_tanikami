@@ -13,7 +13,7 @@ const gcs = new Storage({
 })
 
 // TODO: Add the bucket name being used
-const bucketName = 'tanikami-storage'
+const bucketName = 'tanikami-storage/profil'
 const bucket = gcs.bucket(bucketName)
 
 function getPublicUrl(filename) {
