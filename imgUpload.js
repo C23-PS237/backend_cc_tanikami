@@ -13,7 +13,7 @@ const gcs = new Storage({
 })
 
 // TODO: Add the bucket name being used
-const bucketName = 'tanikami-storage/profil'
+const bucketName = 'tanikami-storage'
 const bucket = gcs.bucket(bucketName)
 
 function getPublicUrl(filename) {
@@ -25,12 +25,12 @@ let imgUpload = {}
 imgUpload.uploadToGcs = (req, res, next) => {
   if (!req.file) return next()
 
-  let gcsname = moment().format("YYYYMMDD-HHmmss")
+  let gcsname = folderName + '/' + moment().format("YYYYMMDD-HHmmss")
 
   const file = bucket.file(gcsname)
 
   const stream = file.createWriteStream({
-    metadata: {
+    metadata: { 
       contentType: req.file.mimetype
     }
   })
