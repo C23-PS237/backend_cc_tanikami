@@ -200,6 +200,16 @@ app.get("/produk/:id_produk", (req, res) => {
     })
 })
 
+app.get("/produk/:id_ktp", (req, res) => {
+    const {id_ktp} = req.params
+    const sql = `SELECT * FROM produk WHERE id_ktp = ?`
+
+    db.query(sql, id_ktp, (error, fields)=>{
+        if(error) throw error
+        response(200, fields,"product detail", res)
+    })
+})
+
 app.put("/produk/:id_produk", multer.single('gambar_produk'), produkupload.uploadToGcs, (req, res) => {
     const id_produk = req.params.id_produk
     const {
