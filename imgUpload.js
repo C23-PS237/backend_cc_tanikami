@@ -25,7 +25,7 @@ let imgUpload = {}
 imgUpload.uploadToGcs = (req, res, next) => {
   if (!req.file) return next()
 
-  let gcsname = folderName + '/' + moment().format("YYYYMMDD-HHmmss")
+  let gcsname = profil + '/' + moment().format("YYYYMMDD-HHmmss")
 
   const file = bucket.file(gcsname)
 
