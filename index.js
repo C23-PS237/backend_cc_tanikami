@@ -8,6 +8,7 @@ const Multer = require('multer')
 const db = require ('./connection.js')
 const response = require('./response.js')
 const profilupload = require('./profilupload.js')
+const produkupload = require('./produkupload.js')
 
 const multer = Multer({
     storage: Multer.MemoryStorage,
@@ -130,19 +131,24 @@ app.put("/user/:id_ktp_lama", multer.single('profil'), profilupload.uploadToGcs,
     })
 })
 
-app.post("/produk/:id_ktp", (req, res) => {
-    const id_ktp = req.params.id_ktp;
+app.post("/produk", multer.single('gambar_produk'), produkupload.uploadToGcs, (req, res) => {
     const {
+        id_ktp,
         nama_produk,
         besaran_stok,
         stok,
         harga,
-        url_gambar,
         deskripsi_produk,
         nama_bank,
         rek_penjual,
         timestamp
     } = req.body;
+
+    var url_gambar = ''
+
+    if (req.file && req.file.cloudStoragePublicUrl) {
+        url_gambar = req.file.cloudStoragePublicUrl
+    }
 
     const sql = `INSERT INTO produk (id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, 
         nama_bank, rek_penjual, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
