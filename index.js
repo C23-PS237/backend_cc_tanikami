@@ -77,11 +77,13 @@ app.post("/user", multer.single('profil'), imgUpload.uploadToGcs, (req, res) => 
     })
 })
 
-app.put("/user/:id_ktp", (req, res) => {
-    const id_ktp = req.params.id_ktp
+app.put("/user/:id_ktp_lama", multer.single('profil'), imgUpload.uploadToGcs, (req, res) => {
+    const id_ktp_lama = req.params.id_ktp_lama
     const {
-        profil,
+        id_ktp, 
         nama, 
+        email,
+        password,
         telepon, 
         alamat_regist, 
         alamat_penerima, 
@@ -90,19 +92,28 @@ app.put("/user/:id_ktp", (req, res) => {
         status
     } = req.body;
 
-    const sql = `UPDATE user SET profil = ?, nama = ?, telepon = ?, alamat_regist = ?, alamat_penerima = ?, 
+    var profil = ''
+
+    if (req.file && req.file.cloudStoragePublicUrl) {
+        profil = req.file.cloudStoragePublicUrl
+    }
+
+    const sql = `UPDATE user SET id_ktp = ?, profil = ?, nama = ?, email = ?, password = ?,telepon = ?, alamat_regist = ?, alamat_penerima = ?, 
     gender = ?, usia = ?, status = ? WHERE id_ktp = ?`
 
     const values = [
+        id_ktp, 
         profil,
-        nama, 
+        nama,
+        email,
+        password, 
         telepon, 
         alamat_regist, 
         alamat_penerima, 
         gender, 
         usia, 
         status,
-        id_ktp
+        id_ktp_lama
     ];
 
     db.query(sql, values, (error, fields)=>{
