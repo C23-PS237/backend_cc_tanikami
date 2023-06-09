@@ -10,6 +10,7 @@ const db = require ('./connection.js')
 const response = require('./response.js')
 const profilupload = require('./profilupload.js')
 const produkupload = require('./produkupload.js')
+const transaksiupload = require('./transaksiupload.js')
 
 const multer = Multer({
     storage: Multer.MemoryStorage,
@@ -200,7 +201,7 @@ app.get("/produk/:id_produk", (req, res) => {
     })
 })
 
-app.get("/produk/ktp/:id_ktp", (req, res) => {
+app.get("/produk/:id_ktp", (req, res) => {
     const {id_ktp} = req.params
     const sql = `SELECT * FROM produk WHERE id_ktp = ?`
 
@@ -278,10 +279,10 @@ app.delete("/produk/:id_produk", (req, res) => {
     })
 })
 
-app.post("/pembelian/:id_ktp/:id_produk", (req, res) => {
-    const id_ktp = req.params.id_ktp;
-    const id_produk = req.params.id_produk;
+app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadToGcs, (req, res) => {
     const {
+        id_ktp,
+        id_produk,
         alamat_penerima,
         harga,
         jumlah_dibeli,
@@ -291,14 +292,19 @@ app.post("/pembelian/:id_ktp/:id_produk", (req, res) => {
         biaya_total,
         status_pembayaran,
         status_pengiriman,
-        bukti_transfer,
-        created_at,
-        updated_at
     } = req.body;
 
+    let created_at = moment().format("YYYY-MM-DD HH:mm:ss")
+
+    var bukti_transfer = ''
+
+    if (req.file && req.file.cloudStoragePublicUrl) {
+        bukti_transfer = req.file.cloudStoragePublicUrl
+    }
+
     const sql = `INSERT INTO pembelian(id_ktp, id_produk, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, 
-        pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at, updated_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
         id_ktp,
@@ -313,8 +319,7 @@ app.post("/pembelian/:id_ktp/:id_produk", (req, res) => {
         status_pembayaran,
         status_pengiriman,
         bukti_transfer,
-        created_at,
-        updated_at
+        created_at
     ];
 
     db.query(sql, values, (error, results) => {
@@ -331,7 +336,7 @@ app.post("/pembelian/:id_ktp/:id_produk", (req, res) => {
 });
 
 
-app.put("/pembelian/:id_transaksi", (req, res) => {
+app.put("/pembelian/:id_transaksi", multer.single('bukti_transfer'), transaksiupload.uploadToGcs, (req, res) => {
     const id_transaksi = req.params.id_transaksi
     const {
         alamat_penerima, 
@@ -343,9 +348,15 @@ app.put("/pembelian/:id_transaksi", (req, res) => {
         biaya_total, 
         status_pembayaran, 
         status_pengiriman, 
-        bukti_transfer, 
-        updated_at
     } = req.body
+
+    let updated_at = moment().format("YYYY-MM-DD HH:mm:ss")
+
+    var bukti_transfer = ''
+
+    if (req.file && req.file.cloudStoragePublicUrl) {
+        bukti_transfer = req.file.cloudStoragePublicUrl
+    }
 
     const sql = `UPDATE pembelian SET alamat_penerima = ? , harga = ?, jumlah_dibeli = ?, biaya_pengiriman = ?, 
     pajak = ?, biaya_admin = ?, biaya_total = ?, status_pembayaran = ?, status_pengiriman = ?, 
