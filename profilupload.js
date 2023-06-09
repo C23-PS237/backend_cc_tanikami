@@ -20,9 +20,9 @@ function getPublicUrl(filename) {
   return 'https://storage.googleapis.com/' + bucketName + '/' + filename;
 }
 
-let imgUpload = {}
+let profilupload = {}
 
-imgUpload.uploadToGcs = (req, res, next) => {
+profilupload.uploadToGcs = (req, res, next) => {
   if (!req.file) return next()
 
   let gcsname = 'profil' + '/' + moment().format("YYYYMMDD-HHmmss")
@@ -49,4 +49,4 @@ imgUpload.uploadToGcs = (req, res, next) => {
   stream.end(req.file.buffer)
 }
 
-module.exports = imgUpload
+module.exports = profilupload

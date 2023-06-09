@@ -7,7 +7,7 @@ const app = express()
 const Multer = require('multer')
 const db = require ('./connection.js')
 const response = require('./response.js')
-const imgUpload = require('./imgUpload.js')
+const profilupload = require('./profilupload.js')
 
 const multer = Multer({
     storage: Multer.MemoryStorage,
@@ -27,7 +27,7 @@ app.get("/user/:id_ktp", (req, res) => {
     })
 })
 
-app.post("/user", multer.single('profil'), imgUpload.uploadToGcs, (req, res) => {
+app.post("/user", multer.single('profil'), profilupload.uploadToGcs, (req, res) => {
 
     const {
         id_ktp, 
@@ -77,7 +77,7 @@ app.post("/user", multer.single('profil'), imgUpload.uploadToGcs, (req, res) => 
     })
 })
 
-app.put("/user/:id_ktp_lama", multer.single('profil'), imgUpload.uploadToGcs, (req, res) => {
+app.put("/user/:id_ktp_lama", multer.single('profil'), profilupload.uploadToGcs, (req, res) => {
     const id_ktp_lama = req.params.id_ktp_lama
     const {
         id_ktp, 
