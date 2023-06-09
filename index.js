@@ -5,6 +5,7 @@ const express = require('express')
 const port = process.env.PORT || 8080
 const app = express()
 const Multer = require('multer')
+const moment = require('moment')
 const db = require ('./connection.js')
 const response = require('./response.js')
 const profilupload = require('./profilupload.js')
@@ -141,8 +142,9 @@ app.post("/produk", multer.single('gambar_produk'), produkupload.uploadToGcs, (r
         deskripsi_produk,
         nama_bank,
         rek_penjual,
-        timestamp
     } = req.body;
+
+    let timestamp = moment().format("YYYY-MM-DD HH:mm:ss")
 
     var url_gambar = ''
 
@@ -198,19 +200,25 @@ app.get("/produk/:id_produk", (req, res) => {
     })
 })
 
-app.put("/produk/:id_produk", (req, res) => {
+app.put("/produk/:id_produk", multer.single('gambar_produk'), produkupload.uploadToGcs, (req, res) => {
     const id_produk = req.params.id_produk
     const {
         nama_produk, 
         besaran_stok, 
         stok, 
         harga, 
-        url_gambar, 
         deskripsi_produk, 
         nama_bank, 
-        rek_penjual, 
-        timestamp
+        rek_penjual,
     } = req.body
+
+    let timestamp = moment().format("YYYY-MM-DD HH:mm:ss")
+
+    var url_gambar = ''
+
+    if (req.file && req.file.cloudStoragePublicUrl) {
+        url_gambar = req.file.cloudStoragePublicUrl
+    }
 
     const sql = `UPDATE produk SET nama_produk = ?, besaran_stok = ?, stok = ?, harga = ?, url_gambar = ?, 
     deskripsi_produk = ?, nama_bank = ?, rek_penjual = ?, timestamp = ? WHERE id_produk = ?`
