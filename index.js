@@ -26,7 +26,7 @@ app.get("/user/:id_ktp", (req, res) => {
 
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
-        response(200, fields, "user detail", res)
+        response(200, fields[0], "user detail", res)
     })
 })
 
@@ -187,10 +187,7 @@ app.get("/produk", (req, res) => {
 
     db.query(sql, (error, fields)=>{
         if(error) throw error
-        if (fields.length > 0) {
-            const product_data = Object.assign({}, ...fields);
-            response(200, product_data, "all products", res)
-        }
+        response(200, fields,"all products", res)
     })
 })
 
@@ -200,7 +197,7 @@ app.get("/produk/:id_produk", (req, res) => {
 
     db.query(sql, id_produk, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"product detail", res)
+        response(200, fields[0], "product detail", res)
     })
 })
 
@@ -210,7 +207,7 @@ app.get("/produk/ktp/:id_ktp", (req, res) => {
 
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"user's products", res)
+        response(200, fields, "user's products", res)
     })
 })
 
@@ -398,7 +395,7 @@ app.get("/pembelian/:id_transaksi", (req, res) => {
 
     db.query(sql, id_transaksi, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"transaction detail", res)
+        response(200, fields[0], "transaction detail", res)
     })
 })
 
@@ -408,7 +405,7 @@ app.get("/pembelian/ktp/:id_ktp", (req, res) => {
 
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"user transactions", res)
+        response(200, fields, "user transactions", res)
     })
 })
 
@@ -445,7 +442,7 @@ app.get("/artikel/:id_artikel", (req, res) => {
 
     db.query(sql, id_artikel, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"article detail", res)
+        response(200, fields[0], "article detail", res)
     })
 })
 
