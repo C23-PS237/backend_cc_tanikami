@@ -187,7 +187,9 @@ app.get("/produk", (req, res) => {
 
     db.query(sql, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"all products", res)
+        if (fields.length > 0) {
+            response(200, ...fields, "all products", res);
+        }
     })
 })
 
