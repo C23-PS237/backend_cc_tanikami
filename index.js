@@ -191,7 +191,11 @@ app.get("/produk", (req, res) => {
 
     db.query(sql, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"all products", res)
+        if (fields.length > 0) {
+            response(200, fields, "all product", res);
+        } else {
+            response(404, null, "product empty", res);
+        }
     })
 })
 
@@ -218,7 +222,7 @@ app.get("/produk/ktp/:id_ktp", (req, res) => {
         if (fields.length > 0) {
             response(200, fields, "user's product", res);
         } else {
-            response(404, null, "user doesn't have product", res);
+            response(404, null, "product empty", res);
         }
     })
 })
@@ -421,7 +425,11 @@ app.get("/pembelian/ktp/:id_ktp", (req, res) => {
 
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
-        response(200, fields, "user transactions", res)
+        if (fields.length > 0) {
+            response(200, fields[0], "user's transactions", res);
+        } else {
+            response(404, null, "user's transactions not found", res);
+        }
     })
 })
 
@@ -448,7 +456,11 @@ app.get("/artikel", (req, res) => {
 
     db.query(sql, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"all articles", res)
+        if (fields.length > 0) {
+            response(200, fields, "all articles", res);
+        } else {
+            response(404, null, "article empty", res);
+        }
     })
 })
 
@@ -458,7 +470,11 @@ app.get("/artikel/:id_artikel", (req, res) => {
 
     db.query(sql, id_artikel, (error, fields)=>{
         if(error) throw error
-        response(200, fields[0], "article detail", res)
+        if (fields.length > 0) {
+            response(200, fields[0], "article detail", res);
+        } else {
+            response(404, null, "article not found", res);
+        }
     })
 })
 
