@@ -1,7 +1,7 @@
 const response = (statusCode, data, message, res) => {
     res.json(statusCode,
         {
-            payload: data,
+            payload: data[0],
             message,
         },
     )

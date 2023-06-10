@@ -26,7 +26,7 @@ app.get("/user/:id_ktp", (req, res) => {
 
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"user detail", res)
+        response(200, fields, "user detail", res)
     })
 })
 
@@ -207,7 +207,7 @@ app.get("/produk/ktp/:id_ktp", (req, res) => {
 
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"product detail", res)
+        response(200, fields,"user's products", res)
     })
 })
 
@@ -254,7 +254,7 @@ app.put("/produk/:id_produk", multer.single('url_gambar'), produkupload.uploadTo
                 isSuccess: fields.affectedRows,
                 message: fields.message,
             }
-            response(200, data, "data updated", res)
+            response(200, data, "product updated", res)
         } else {
             response(404, "wrong", "error", res)
         }
@@ -272,7 +272,7 @@ app.delete("/produk/:id_produk", (req, res) => {
                 isSuccess: fields.affectedRows,
                 message: fields.message,
             }
-            response(200, data, "data deleted", res)
+            response(200, data, "product deleted", res)
         } else {
             response(404, "wrong", "error", res)
         }
@@ -324,13 +324,13 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
 
     db.query(sql, values, (error, results) => {
         if (error) {
-            res.status(500).json({ error: "Failed to insert product" });
+            res.status(500).json({ error: "failed to insert transaction" });
         } else {
             const data = {
                 isSuccess: results.affectedRows > 0,
                 id: results.insertId
             };
-            res.status(200).json({ data: data, message: "Product added" });
+            res.status(200).json({ data: data, message: "purchased" });
         }
     });
 });
@@ -384,7 +384,7 @@ app.put("/pembelian/:id_transaksi", multer.single('bukti_transfer'), transaksiup
                 isSuccess: fields.affectedRows,
                 id: fields.insertId
             }
-            response(200, data, "product added", res)
+            response(200, data, "transaction updated", res)
         }
     })
 })
@@ -395,7 +395,7 @@ app.get("/pembelian/:id_transaksi", (req, res) => {
 
     db.query(sql, id_transaksi, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"purchase detail", res)
+        response(200, fields,"transaction detail", res)
     })
 })
 
@@ -405,7 +405,7 @@ app.get("/pembelian/ktp/:id_ktp", (req, res) => {
 
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
-        response(200, fields,"purchase detail", res)
+        response(200, fields,"user transactions", res)
     })
 })
 
@@ -420,7 +420,7 @@ app.delete("/pembelian/:id_transaksi", (req, res) => {
                 isSuccess: fields.affectedRows,
                 message: fields.message,
             }
-            response(200, data, "data deleted", res)
+            response(200, data, "transaction deleted", res)
         } else {
             response(404, "wrong", "error", res)
         }
