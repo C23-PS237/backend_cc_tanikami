@@ -133,7 +133,7 @@ app.put("/user/:id_ktp_lama", multer.single('profil'), profilupload.uploadToGcs,
     })
 })
 
-app.post("/produk", multer.single('gambar_produk'), produkupload.uploadToGcs, (req, res) => {
+app.post("/produk", multer.single('url_gambar'), produkupload.uploadToGcs, (req, res) => {
     const {
         id_ktp,
         nama_produk,
@@ -211,7 +211,7 @@ app.get("/produk/ktp/:id_ktp", (req, res) => {
     })
 })
 
-app.put("/produk/:id_produk", multer.single('gambar_produk'), produkupload.uploadToGcs, (req, res) => {
+app.put("/produk/:id_produk", multer.single('url_gambar'), produkupload.uploadToGcs, (req, res) => {
     const id_produk = req.params.id_produk
     const {
         nama_produk, 
