@@ -188,7 +188,7 @@ app.get("/produk", (req, res) => {
     db.query(sql, (error, fields)=>{
         if(error) throw error
         if (fields.length > 0) {
-            const product_data = fields.map((item) => ({ ...item }));
+            const product_data = Object.assign({}, ...fields);
             response(200, product_data, "all products", res)
         }
     })
