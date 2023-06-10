@@ -215,7 +215,11 @@ app.get("/produk/ktp/:id_ktp", (req, res) => {
 
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
-        response(200, fields, "user's products", res)
+        if (fields.length > 0) {
+            response(200, fields, "user's product", res);
+        } else {
+            response(404, null, "user doesn't have product", res);
+        }
     })
 })
 
