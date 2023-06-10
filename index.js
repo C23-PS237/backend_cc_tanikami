@@ -26,7 +26,11 @@ app.get("/user/:id_ktp", (req, res) => {
 
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
-        response(200, fields[0], "user detail", res)
+        if (fields.length > 0) {
+            response(200, fields[0], "user detail", res);
+        } else {
+            response(404, null, "user not found", res);
+        }
     })
 })
 
@@ -197,7 +201,11 @@ app.get("/produk/:id_produk", (req, res) => {
 
     db.query(sql, id_produk, (error, fields)=>{
         if(error) throw error
-        response(200, fields[0], "product detail", res)
+        if (fields.length > 0) {
+            response(200, fields[0], "product detail", res);
+        } else {
+            response(404, null, "product not found", res);
+        }
     })
 })
 
@@ -395,7 +403,11 @@ app.get("/pembelian/:id_transaksi", (req, res) => {
 
     db.query(sql, id_transaksi, (error, fields)=>{
         if(error) throw error
-        response(200, fields[0], "transaction detail", res)
+        if (fields.length > 0) {
+            response(200, fields[0], "transaction detail", res);
+        } else {
+            response(404, null, "transaction not found", res);
+        }
     })
 })
 
