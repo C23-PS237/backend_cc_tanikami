@@ -137,7 +137,7 @@ app.put("/user/:id_ktp_lama", multer.single('profil'), profilupload.uploadToGcs,
     })
 })
 
-app.post("/produk", multer.single('url_gambar'), produkupload.uploadToGcs, (req, res) => {
+app.post("/produk", multer.single('gambar_produk'), produkupload.uploadToGcs, (req, res) => {
     const {
         id_ktp,
         nama_produk,
@@ -151,13 +151,13 @@ app.post("/produk", multer.single('url_gambar'), produkupload.uploadToGcs, (req,
 
     let timestamp = moment().format("YYYY-MM-DD HH:mm:ss")
 
-    var url_gambar = ''
+    var gambar_produk = ''
 
     if (req.file && req.file.cloudStoragePublicUrl) {
-        url_gambar = req.file.cloudStoragePublicUrl
+        gambar_produk = req.file.cloudStoragePublicUrl
     }
 
-    const sql = `INSERT INTO produk (id_ktp, nama_produk, besaran_stok, stok, harga, url_gambar, deskripsi_produk, 
+    const sql = `INSERT INTO produk (id_ktp, nama_produk, besaran_stok, stok, harga, gambar_produk, deskripsi_produk, 
         nama_bank, rek_penjual, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
@@ -166,7 +166,7 @@ app.post("/produk", multer.single('url_gambar'), produkupload.uploadToGcs, (req,
         besaran_stok,
         stok,
         harga,
-        url_gambar,
+        gambar_produk,
         deskripsi_produk,
         nama_bank,
         rek_penjual,
@@ -227,7 +227,7 @@ app.get("/produk/ktp/:id_ktp", (req, res) => {
     })
 })
 
-app.put("/produk/:id_produk", multer.single('url_gambar'), produkupload.uploadToGcs, (req, res) => {
+app.put("/produk/:id_produk", multer.single('gambar_produk'), produkupload.uploadToGcs, (req, res) => {
     const id_produk = req.params.id_produk
     const {
         nama_produk, 
@@ -241,13 +241,13 @@ app.put("/produk/:id_produk", multer.single('url_gambar'), produkupload.uploadTo
 
     let timestamp = moment().format("YYYY-MM-DD HH:mm:ss")
 
-    var url_gambar = ''
+    var gambar_produk = ''
 
     if (req.file && req.file.cloudStoragePublicUrl) {
-        url_gambar = req.file.cloudStoragePublicUrl
+        gambar_produk = req.file.cloudStoragePublicUrl
     }
 
-    const sql = `UPDATE produk SET nama_produk = ?, besaran_stok = ?, stok = ?, harga = ?, url_gambar = ?, 
+    const sql = `UPDATE produk SET nama_produk = ?, besaran_stok = ?, stok = ?, harga = ?, gambar_produk = ?, 
     deskripsi_produk = ?, nama_bank = ?, rek_penjual = ?, timestamp = ? WHERE id_produk = ?`
     
     const values = [
@@ -255,7 +255,7 @@ app.put("/produk/:id_produk", multer.single('url_gambar'), produkupload.uploadTo
         besaran_stok, 
         stok, 
         harga, 
-        url_gambar, 
+        gambar_produk, 
         deskripsi_produk, 
         nama_bank, 
         rek_penjual, 
