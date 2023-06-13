@@ -6,6 +6,7 @@ const port = process.env.PORT || 8080
 const app = express()
 const Multer = require('multer')
 const moment = require('moment')
+require('moment-timezone')
 const db = require ('./connection.js')
 const response = require('./response.js')
 const profilupload = require('./profilupload.js')
