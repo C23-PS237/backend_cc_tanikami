@@ -149,7 +149,7 @@ app.post("/produk", multer.single('gambar_produk'), produkupload.uploadToGcs, (r
         rek_penjual,
     } = req.body;
 
-    let timestamp = moment().format("YYYY-MM-DD HH:mm:ss")
+    let timestamp = moment().tz('Asia/Jakarta').format("YYYY-MM-DD HH:mm:ss")
 
     var gambar_produk = ''
 
@@ -239,7 +239,7 @@ app.put("/produk/:id_produk", multer.single('gambar_produk'), produkupload.uploa
         rek_penjual,
     } = req.body
 
-    let timestamp = moment().format("YYYY-MM-DD HH:mm:ss")
+    let timestamp = moment().tz('Asia/Jakarta').format("YYYY-MM-DD HH:mm:ss")
 
     var gambar_produk = ''
 
@@ -310,7 +310,7 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
         status_pengiriman,
     } = req.body;
 
-    let created_at = moment().format("YYYY-MM-DD HH:mm:ss")
+    let created_at = moment().tz('Asia/Jakarta').format("YYYY-MM-DD HH:mm:ss")
 
     var bukti_transfer = ''
 
@@ -366,7 +366,7 @@ app.put("/pembelian/:id_transaksi", multer.single('bukti_transfer'), transaksiup
         status_pengiriman, 
     } = req.body
 
-    let updated_at = moment().format("YYYY-MM-DD HH:mm:ss")
+    let updated_at = moment().tz('Asia/Jakarta').format("YYYY-MM-DD HH:mm:ss")
 
     var bukti_transfer = ''
 
