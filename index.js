@@ -321,7 +321,7 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
 
     let pengiriman
 
-    if (biaya_pengiriman == null){
+    if (!biaya_pengiriman){
         pengiriman = 0
     } else {
         pengiriman = biaya_pengiriman
