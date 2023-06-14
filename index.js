@@ -319,7 +319,7 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
         bukti_transfer = req.file.cloudStoragePublicUrl
     }
 
-    if (!biaya_pengiriman == null){
+    if (biaya_pengiriman == null){
         biaya_pengiriman = 0
     }
 
