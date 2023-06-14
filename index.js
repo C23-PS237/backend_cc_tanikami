@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const port = process.env.PORT || 8080
 const app = express()
-const Multer = require('multer')
+const multer = require('multer')
 const moment = require('moment')
 require('moment-timezone')
 const db = require ('./connection.js')
@@ -13,7 +13,7 @@ const profilupload = require('./profilupload.js')
 const produkupload = require('./produkupload.js')
 const transaksiupload = require('./transaksiupload.js')
 
-const multer = Multer({
+const multer = multer({
     storage: Multer.MemoryStorage,
     fileSize: 5 * 1024 * 1024
 })
