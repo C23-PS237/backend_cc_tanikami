@@ -309,6 +309,7 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
         biaya_total,
         status_pembayaran,
         status_pengiriman,
+        id_penjual
     } = req.body;
 
     let created_at = moment().tz('Asia/Jakarta').format("YYYY-MM-DD HH:mm:ss")
@@ -328,8 +329,8 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
     }
 
     const sql = `INSERT INTO pembelian(id_ktp, id_produk, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, 
-        pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        pajak, biaya_admin, biaya_total, status_pembayaran, status_pengiriman, bukti_transfer, created_at, id_penjual) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
         id_ktp,
@@ -344,7 +345,8 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
         status_pembayaran,
         status_pengiriman,
         bukti_transfer,
-        created_at
+        created_at,
+        id_penjual
     ];
 
     db.query(sql, values, (error, results) => {
@@ -373,6 +375,7 @@ app.put("/pembelian/:id_transaksi", multer.single('bukti_transfer'), transaksiup
         biaya_total, 
         status_pembayaran, 
         status_pengiriman, 
+        id_penjual
     } = req.body
 
     let updated_at = moment().tz('Asia/Jakarta').format("YYYY-MM-DD HH:mm:ss")
@@ -385,7 +388,7 @@ app.put("/pembelian/:id_transaksi", multer.single('bukti_transfer'), transaksiup
 
     const sql = `UPDATE pembelian SET alamat_penerima = ? , harga = ?, jumlah_dibeli = ?, biaya_pengiriman = ?, 
     pajak = ?, biaya_admin = ?, biaya_total = ?, status_pembayaran = ?, status_pengiriman = ?, 
-    bukti_transfer = ?, updated_at = ? WHERE id_transaksi = ?`
+    bukti_transfer = ?, updated_at = ?, id_penjual = ? WHERE id_transaksi = ?`
 
     const values = [
         alamat_penerima, 
@@ -399,6 +402,7 @@ app.put("/pembelian/:id_transaksi", multer.single('bukti_transfer'), transaksiup
         status_pengiriman, 
         bukti_transfer, 
         updated_at,
+        id_penjual,
         id_transaksi
     ]
 
@@ -413,6 +417,7 @@ app.put("/pembelian/:id_transaksi", multer.single('bukti_transfer'), transaksiup
         }
     })
 })
+
 
 app.get("/pembelian/:id_transaksi", (req, res) => {
     const {id_transaksi} = req.params
@@ -438,6 +443,20 @@ app.get("/pembelian/ktp/:id_ktp", (req, res) => {
             response(200, fields, "user's transactions", res);
         } else {
             response(404, null, "user's transactions not found", res);
+        }
+    })
+})
+
+app.get("/pembelian/:id_penjual", (req, res) => {
+    const {id_penjual} = req.params
+    const sql = `SELECT * FROM pembelian WHERE id_penjual = ?`
+
+    db.query(sql, id_penjual, (error, fields)=>{
+        if(error) throw error
+        if (fields.length > 0) {
+            response(200, fields, "seller's transactions", res);
+        } else {
+            response(404, null, "transaction not found", res);
         }
     })
 })
