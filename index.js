@@ -319,8 +319,12 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
         bukti_transfer = req.file.cloudStoragePublicUrl
     }
 
+    let pengiriman
+
     if (biaya_pengiriman == null){
-        biaya_pengiriman = 0
+        pengiriman = 0
+    } else {
+        pengiriman = biaya_pengiriman
     }
 
     const sql = `INSERT INTO pembelian(id_ktp, id_produk, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, 
@@ -333,7 +337,7 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
         alamat_penerima,
         harga,
         jumlah_dibeli,
-        biaya_pengiriman,
+        pengiriman,
         pajak,
         biaya_admin,
         biaya_total,
