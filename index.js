@@ -320,12 +320,26 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
         bukti_transfer = req.file.cloudStoragePublicUrl
     }
 
-    let pengiriman
+    let val_pengiriman
+    let val_pajak
+    let val_admin
 
     if (!biaya_pengiriman){
-        pengiriman = 0
+        val_pengiriman = 0
     } else {
-        pengiriman = biaya_pengiriman
+        val_pengiriman = biaya_pengiriman
+    }
+
+    if (!pajak){
+        val_pajak = 0
+    } else {
+        val_pajak = pajak
+    }
+
+    if (!biaya_admin){
+        val_admin = 0
+    } else {
+        val_admin = biaya_admin
     }
 
     const sql = `INSERT INTO pembelian(id_ktp, id_produk, alamat_penerima, harga, jumlah_dibeli, biaya_pengiriman, 
@@ -338,9 +352,9 @@ app.post("/pembelian", multer.single('bukti_transfer'), transaksiupload.uploadTo
         alamat_penerima,
         harga,
         jumlah_dibeli,
-        pengiriman,
-        pajak,
-        biaya_admin,
+        val_pengiriman,
+        val_pajak,
+        val_admin,
         biaya_total,
         status_pembayaran,
         status_pengiriman,
