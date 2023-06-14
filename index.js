@@ -435,7 +435,7 @@ app.get("/pembelian/ktp/:id_ktp", (req, res) => {
     db.query(sql, id_ktp, (error, fields)=>{
         if(error) throw error
         if (fields.length > 0) {
-            response(200, fields[0], "user's transactions", res);
+            response(200, fields, "user's transactions", res);
         } else {
             response(404, null, "user's transactions not found", res);
         }
