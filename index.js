@@ -447,7 +447,7 @@ app.get("/pembelian/ktp/:id_ktp", (req, res) => {
     })
 })
 
-app.get("/pembelian/:id_penjual", (req, res) => {
+app.get("/pembelian/penjual/:id_penjual", (req, res) => {
     const {id_penjual} = req.params
     const sql = `SELECT * FROM pembelian WHERE id_penjual = ?`
 
