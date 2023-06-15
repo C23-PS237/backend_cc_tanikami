@@ -371,6 +371,22 @@ Response:
 ```
 </details>
 <details>
+<summary>GET pembelian by id_ktp</summary>
+Request:
+
+- Method: `GET`
+- Endpoint: `/pembelian/ktp/<id_ktp>`
+- Body: `none`
+
+Response:
+```json
+{
+    "payload": ["LIST OF USER'S TRANSACTIONS"],
+    "message": "user's transactions"
+}
+```
+</details>
+<details>
 <summary>GET pembelian by id_penjual</summary>
 Request:
 
