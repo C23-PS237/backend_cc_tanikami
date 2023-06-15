@@ -300,3 +300,40 @@ Response:
 }
 ```
 </details>
+<details>
+<summary>PUT pembelian by id_transaksi</summary>
+Request:
+
+- Method: `PUT`
+- Endpoint: `/pembelian/<id_transaksi>`
+- Body:
+
+| KEY | VALUE |
+| --- | --- |
+| `bukti_transfer` | IMAGE FILE |
+| `id_ktp` | string |
+| `id_produk` | number |
+| `alamat_penerima` | string NULLABLE |
+| `harga` | number |
+| `jumlah_dibeli` | number |
+| `biaya_pengiriman` | number |
+| `pajak` | number |
+| `biaya_admin` | number |
+| `biaya_total` | number |
+| `status_pembayaran` | number `0/1` |
+| `status_pengiriman` | number `0/1` |
+| `id_penjual` | string |
+
+
+
+Response:
+```json
+{
+    "payload": {
+        "isSuccess": "number",
+        "id": "number"
+    },
+    "message": "transaction updated"
+}
+```
+</details>
