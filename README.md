@@ -75,7 +75,7 @@ Response:
 {
   "payload": {
     "id_ktp": "string",
-    "Profil": "IMAGE URL",
+    "profil": "IMAGE URL",
     "nama": "string",
     "email": "string",
     "password": "string",
@@ -425,18 +425,25 @@ Response:
 ```
 </details>
 <details>
-<summary>GET artikel</summary>
+<summary>GET artikel by id_artikel</summary>
 Request:
 
 - Method: `GET`
-- Endpoint: `/artikel`
+- Endpoint: `/artikel/<id_artikel>`
 - Body: `none`
 
 Response:
 ```json
 {
-  "payload": ["LIST OF ALL ARTICLES"]
-  "message": "all articles"
+    "payload": {
+        "id_artikel": "number",
+        "judul": "string",
+        "body": "string",
+        "gambar_artikel": "IMAGE URL",
+        "author": "string",
+        "timestamp": "string"
+    },
+    "message": "article detail"
 }
 ```
 </details>
