@@ -67,7 +67,7 @@ Response:
 Request:
 
 - Method: `GET`
-- Endpoint: `/user/**<id_ktp>**`
+- Endpoint: `/user/ **<id_ktp>** `
 - Body: `none`
 
 Response:
