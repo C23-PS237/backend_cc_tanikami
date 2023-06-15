@@ -279,31 +279,25 @@ app.put("/produk/:id_produk", multer.single('gambar_produk'), produkupload.uploa
 })
 
 app.put("/produk/stok/:id_produk", (req, res) => {
-    const id_produk = req.params.id_produk
-    const {
-        stok
-    } = req.body
+    const id_produk = req.params.id_produk;
+    const stok = req.body.stok;
 
-    const sql = `UPDATE produk SET stok = ? WHERE id_produk = ?`
-    
-    const values = [ 
-        stok,
-        id_produk
-    ]
+    const sql = `UPDATE produk SET stok = ? WHERE id_produk = ?`;
 
-    db.query(sql, values, (error, fields)=>{
-        if(error) response(500, "invalid", "error", res)
-        if (fields?.affectedRows){
+    db.query(sql, [stok, id_produk], (error, results) => {
+        if (error) {
+            response(500, "invalid", "error", res);
+        } else if (results.affectedRows > 0) {
             const data = {
-                isSuccess: fields.affectedRows,
-                message: fields.message,
-            }
-            response(200, data, "stock updated", res)
+                isSuccess: results.affectedRows,
+                message: "Stock updated",
+            };
+            response(200, data, "success", res);
         } else {
-            response(404, "wrong", "error", res)
+            response(404, "wrong", "error", res);
         }
-    })
-})
+    });
+});
 
 app.delete("/produk/:id_produk", (req, res) => {
     const {id_produk} = req.params
