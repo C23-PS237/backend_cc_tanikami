@@ -67,7 +67,7 @@ Response:
 Request:
 
 - Method: `GET`
-- Endpoint: `/user/ **<id_ktp>** `
+- Endpoint: `/user/<id_ktp>`
 - Body: `none`
 
 Response:
@@ -95,7 +95,7 @@ Response:
 Request:
 
 - Method: `PUT`
-- Endpoint: `/user/**<id_ktp>**`
+- Endpoint: `/user/<id_ktp>`
 - Body:
 
 | KEY | VALUE |
@@ -175,7 +175,7 @@ Response:
 Request:
   
 - Method: `GET`
-- Endpoint: `/produk/**<id_produk>**`
+- Endpoint: `/produk/<id_produk>`
 - Body: `none`
 
 Response:
@@ -203,7 +203,7 @@ Response:
 Request:
 
 - Method: `GET`
-- Endpoint: `/produk/ktp/**<id_ktp>**`
+- Endpoint: `/produk/ktp/<id_ktp>`
 - Body: `none`
 
 Response:
@@ -219,7 +219,7 @@ Response:
 Request:
 
 - Method: `PUT`
-- Endpoint: `/produk/**<id_produk>**`
+- Endpoint: `/produk/<id_produk>`
 - Body:
 
 | KEY | VALUE |
@@ -249,7 +249,7 @@ Response:
 Request:
 
 - Method: `DELETE`
-- Endpoint: `/produk/**<id_produk>**`
+- Endpoint: `/produk/<id_produk>`
 - Body: `none`
 
 Response:
