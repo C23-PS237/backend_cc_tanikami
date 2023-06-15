@@ -293,8 +293,8 @@ Response:
 ```json
 {
     "data": {
-        "isSuccess": true,
-        "id": 19
+        "isSuccess": "boolean",
+        "id": "number"
     },
     "message": "purchased"
 }
@@ -359,8 +359,8 @@ Response:
         "pajak": "number",
         "biaya_admin": "number",
         "biaya_total": "number",
-        "status_pembayaran": "number `0/1`",
-        "status_pengiriman": "number `0/1`",
+        "status_pembayaran": "number 0/1",
+        "status_pengiriman": "number 0/1",
         "bukti_transfer": "string",
         "created_at": "string",
         "updated_at": "string",
@@ -371,18 +371,37 @@ Response:
 ```
 </details>
 <details>
-<summary>GET pembelian by id_ktp</summary>
+<summary>GET pembelian by id_penjual</summary>
 Request:
 
 - Method: `GET`
-- Endpoint: `/pembelian/ktp/<id_ktp>`
+- Endpoint: `/pembelian/penjual/<id_penjual>`
 - Body: `none`
 
 Response:
 ```json
 {
-    "payload": ["LIST OF USER'S TRANSACTIONS"],
-    "message": "user's transactions"
+    "payload": [
+        {
+            "id_transaksi": "number",
+            "id_produk": "number",
+            "id_ktp": "string",
+            "alamat_penerima": "string",
+            "harga": "number",
+            "jumlah_dibeli": "number",
+            "biaya_pengiriman": "number",
+            "pajak": "number",
+            "biaya_admin": "number",
+            "biaya_total": "number",
+            "status_pembayaran": "number 0/1",
+            "status_pengiriman": "number 0/1",
+            "bukti_transfer": "string",
+            "created_at": "string",
+            "updated_at": "string",
+            "id_penjual": "string"
+        }
+    ],
+    "message": "seller's transactions"
 }
 ```
 </details>
