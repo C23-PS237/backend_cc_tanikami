@@ -280,7 +280,13 @@ app.put("/produk/:id_produk", multer.single('gambar_produk'), produkupload.uploa
 
 app.put("/produk/stok/:id_produk", (req, res) => {
     const id_produk = req.params.id_produk;
-    const stok = req.body.stok;
+    let stok;
+
+    if (req.is('application/x-www-form-urlencoded')) {
+        stok = req.body.stok;
+    } else {
+        stok = req.body.get('stok');
+    }
 
     const sql = `UPDATE produk SET stok = ? WHERE id_produk = ?`;
 
