@@ -263,3 +263,40 @@ Response:
 }
 ```
 </details>
+<details>
+<summary>POST pembelian</summary>
+Request:
+
+- Method: `POST`
+- Endpoint: `/pembelian`
+- Body:
+
+| KEY | VALUE |
+| --- | --- |
+| `bukti_transfer` | IMAGE FILE |
+| `id_ktp` | string |
+| `id_produk` | number |
+| `alamat_penerima` | string NULLABLE |
+| `harga` | number |
+| `jumlah_dibeli` | number |
+| `biaya_pengiriman` | number |
+| `pajak` | number |
+| `biaya_admin` | number |
+| `biaya_total` | number |
+| `status_pembayaran` | number `0/1` |
+| `status_pengiriman` | number `0/1` |
+| `id_penjual` | string |
+
+
+
+Response:
+```json
+{
+    "data": {
+        "isSuccess": true,
+        "id": 19
+    },
+    "message": "purchased"
+}
+```
+</details>
