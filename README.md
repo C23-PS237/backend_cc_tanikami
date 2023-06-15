@@ -21,7 +21,7 @@ database.md
 - Create a Public Google Cloud Bucket and set up the `profilupload.js`, `produkupload.js`, and `transaksiupload.js` accordingly
 - Generate the container image using the provided Dockerfile
 ```bash
-gcloud builds submit --tag gcr.io/**<project_id>**/tanikami
+gcloud builds submit --tag gcr.io/<project_id>/tanikami
 ```
 - Deploy the container image using Cloud Run
 ```bash
