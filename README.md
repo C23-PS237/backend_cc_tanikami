@@ -405,4 +405,22 @@ Response:
 }
 ```
 </details>
+<details>
+<summary>DELETE pembelian by id_transaksi</summary>
+Request:
 
+- Method: `DELETE`
+- Endpoint: `/pembelian/<id_transaksi>`
+- Body: `none`
+
+Response:
+```json
+{
+    "payload": {
+        "isSuccess": 1,
+        "message": ""
+    },
+    "message": "transaction deleted"
+}
+```
+</details>
