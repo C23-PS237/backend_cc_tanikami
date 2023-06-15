@@ -361,7 +361,7 @@ Response:
         "biaya_total": "number",
         "status_pembayaran": "number 0/1",
         "status_pengiriman": "number 0/1",
-        "bukti_transfer": "string",
+        "bukti_transfer": "IMAGE URL",
         "created_at": "string",
         "updated_at": "string",
         "id_penjual": "string"
@@ -395,7 +395,7 @@ Response:
             "biaya_total": "number",
             "status_pembayaran": "number 0/1",
             "status_pengiriman": "number 0/1",
-            "bukti_transfer": "string",
+            "bukti_transfer": "IMAGE URL",
             "created_at": "string",
             "updated_at": "string",
             "id_penjual": "string"
