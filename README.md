@@ -263,8 +263,3 @@ Response:
 }
 ```
 </details>
-
-
-https://github.com/MArifBillah/BusahaAPI
-https://github.com/C22-PS008/cloud_computing/tree/main
-
