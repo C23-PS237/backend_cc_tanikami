@@ -475,6 +475,20 @@ app.get("/pembelian/penjual/:id_penjual", (req, res) => {
     })
 })
 
+app.get("/pembelian/produk/:id_produk", (req, res) => {
+    const {id_produk} = req.params
+    const sql = `SELECT * FROM pembelian WHERE id_produk = ?`
+
+    db.query(sql, id_produk, (error, fields)=>{
+        if(error) throw error
+        if (fields.length > 0) {
+            response(200, fields, "item's transactions", res);
+        } else {
+            response(404, null, "transaction not found", res);
+        }
+    })
+})
+
 app.delete("/pembelian/:id_transaksi", (req, res) => {
     const {id_transaksi} = req.params
     const sql = `DELETE FROM pembelian WHERE id_transaksi = ?`
