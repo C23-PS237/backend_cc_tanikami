@@ -417,10 +417,26 @@ Response:
 ```json
 {
     "payload": {
-        "isSuccess": 1,
+        "isSuccess": "number",
         "message": ""
     },
     "message": "transaction deleted"
+}
+```
+</details>
+<details>
+<summary>GET artikel</summary>
+Request:
+
+- Method: `GET`
+- Endpoint: `/artikel`
+- Body: `none`
+
+Response:
+```json
+{
+  "payload": ["LIST OF ALL ARTICLES"]
+  "message": "all articles"
 }
 ```
 </details>
