@@ -338,6 +338,39 @@ Response:
 ```
 </details>
 <details>
+<summary>GET pembelian by id_transaksi </summary>
+Request:
+
+- Method: `GET`
+- Endpoint: `/pembelian/<id_transaksi>`
+- Body: `none`
+
+Response:
+```json
+{
+    "payload": {
+        "id_transaksi": "number",
+        "id_produk": "number",
+        "id_ktp": "string",
+        "alamat_penerima": "string",
+        "harga": "number",
+        "jumlah_dibeli": "number",
+        "biaya_pengiriman": "number",
+        "pajak": "number",
+        "biaya_admin": "number",
+        "biaya_total": "number",
+        "status_pembayaran": "number `0/1`",
+        "status_pengiriman": "number `0/1`",
+        "bukti_transfer": "string",
+        "created_at": "string",
+        "updated_at": "string",
+        "id_penjual": "string"
+    },
+    "message": "transaction detail"
+}
+```
+</details>
+<details>
 <summary>GET pembelian by id_ktp</summary>
 Request:
 
