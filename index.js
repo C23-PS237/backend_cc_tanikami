@@ -20,6 +20,11 @@ const multer = Multer({
 
 app.use(bodyParser.urlencoded({extended: true}))
 
+app.get("/", (req, res) => {
+    console.log("Response success")
+    res.send("Response Success! \nPlease refer to the https://github.com/C23-PS237/backend_cc_tanikami to see the working endpoints")
+})
+
 app.get("/user/:id_ktp", (req, res) => {
     const {id_ktp} = req.params
 
